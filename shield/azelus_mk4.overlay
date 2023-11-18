@@ -1,0 +1,69 @@
+/*
+ * Copyright (c) 2020 Pete Johanson
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/dts-v1/;
+#include "nice_nano.dtsi"
+
+/ {
+    chosen {
+        zmk,battery = &vbatt;
+        zmk,kscan = &kscan0;
+        zmk,matrix_transform = &layout_grid_transform;
+    };
+    
+    
+    kscan0: kscan {
+        compatible = "zmk,kscan-gpio-matrix";
+        label = "KSCAN";
+                diode-direction = "col2row";
+        row-gpios
+            = <&gpiod 6  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  
+            , <&gpiod 7  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpiod 8  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpiod 9  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpiod 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  
+            ;
+        col-gpios
+            = <&gpiod 1  GPIO_ACTIVE_HIGH>  // rechts
+            , <&gpiod 0  GPIO_ACTIVE_HIGH>
+            , <&gpiod 2  GPIO_ACTIVE_HIGH>
+            , <&gpiod 3  GPIO_ACTIVE_HIGH>
+            , <&gpiod 4  GPIO_ACTIVE_HIGH>
+            , <&gpiod 5  GPIO_ACTIVE_HIGH>
+            , <&gpiod 21 GPIO_ACTIVE_HIGH>  // links
+            , <&gpiod 20 GPIO_ACTIVE_HIGH>
+            , <&gpiod 19 GPIO_ACTIVE_HIGH>
+            , <&gpiod 18 GPIO_ACTIVE_HIGH>
+            , <&gpiod 15 GPIO_ACTIVE_HIGH>
+            , <&gpiod 14 GPIO_ACTIVE_HIGH>
+            ;
+    };
+    layout_grid_transform: keymap_transform_0 {
+        compatible = "zmk,matrix-transform";
+        columns = <12>;
+        rows = <5>;
+        map = <
+               R(0,1) R(0,2) R(0,3) R(0,4)               R(0,7) R(0,8) R(0,9) R(0,10)  
+        R(1,0) R(1,1) R(1,2) R(1,3) R(1,4) R(1,5) R(1,6) R(1,7) R(1,8) R(1,9) R(1,10) R(1,11) 
+        R(2,0) R(2,1) R(2,2) R(2,3) R(2,4) R(2,5) R(2,6) R(2,7) R(2,8) R(2,9) R(2,10) R(2,11) 
+        R(3,0) R(3,1) R(3,2) R(3,3) R(3,4) R(3,5) R(3,6) R(3,7) R(3,8) R(3,9) R(3,10) R(3,11) 
+                      R(4,2) R(4,3) R(4,4) R(4,5) R(4,6) R(4,7) R(4,8) R(4,9) 
+        >;
+    };
+
+    ext-power {
+        compatible = "zmk,ext-power-generic";
+        label = "EXT_POWER";
+        control-gpios = <&gpio0 13 GPIO_ACTIVE_HIGH>;
+        init-delay-ms = <50>;
+    };
+
+    vbatt: vbatt {
+        compatible = "zmk,battery-nrf-vddh";
+        label = "BATTERY";
+    };
+};
+
