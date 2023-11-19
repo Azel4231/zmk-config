@@ -8,7 +8,7 @@
         zmk,matrix_transform = &layout_grid_transform;
     };
     
-    
+    // &gpio1 6 means pin P1.06 on the pinout diagram for the nice!nano_v2: https://zmk.dev/docs/development/new-shield#shield-overlays
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-matrix";
         label = "KSCAN";

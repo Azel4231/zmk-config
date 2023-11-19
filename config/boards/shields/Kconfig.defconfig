@@ -1,6 +1,10 @@
 
+if SHIELD_AZELUS_MK4
+
 config ZMK_KEYBOARD_NAME
 	default "Azelus MK4"
+	
+endif
     
 # Bluetooth settings
 CONFIG_BT_GATT_ENFORCE_SUBSCRIPTION=y
