@@ -1,8 +1,8 @@
 
-config ZMK_KEYBOARD_NAME="Azelus MK4"
+config ZMK_KEYBOARD_NAME
+	default "Azelus MK4"
     
 # Bluetooth settings
 CONFIG_BT_GATT_ENFORCE_SUBSCRIPTION=y
 CONFIG_ZMK_BLE_PASSKEY_ENTRY=y
 
-endif
