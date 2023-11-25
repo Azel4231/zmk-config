@@ -1,0 +1,39 @@
+/*
+ * build firmware locally:
+ *   cd github/zmk/app
+ *   west build -b nice_nano_v2 -- -DSHIELD=redpoll
+     ;; reset controller
+ *   cp build/zephyr/zmk.uf2 /media/.../NICENANO/
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/keys.h>
+
+/ {
+    combos {
+        compatible = "zmk,combos";
+
+        OE {
+            bindings = <&kp SEMICOLON>;
+            key-positions = <3 4>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        layer_0 {
+            bindings = <
+                                                   &kp J   &kp L   &kp U      &kp Z    &kp LBKT   &kp APOS
+                                                   &kp M   &kp N   &kp E      &kp I    &kp O      &kp BSPC
+                                                   &kp K   &kp H   &kp COMMA  &kp DOT  &kp MINUS  &kp BSLH
+                                                   &trans  &trans  &kp SPACE  &trans   &kp FSLH
+&kp TAB    &kp Q   &kp W   &kp F   &kp P   &kp B
+&kp LCTRL  &kp A   &kp R   &kp S   &kp T   &kp G
+&trans     &kp Y   &kp X   &kp C   &kp D   &kp V
+           &trans  &trans  &trans  &trans  &trans
+            >;
+        };
+    };
+};

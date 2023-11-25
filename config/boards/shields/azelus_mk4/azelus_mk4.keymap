@@ -1,4 +1,8 @@
 /*
+ * ZMK lokal bauen:
+ *   cd github/zmk/app
+ *   west build -b nice_nano_v2 -- -DSHIELD=azelus_mk4
+ *   cp build/zephyr/zmk.uf2 /media/.../NICENANO/
  */
 
 #include <behaviors.dtsi>

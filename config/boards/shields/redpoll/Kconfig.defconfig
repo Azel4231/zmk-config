@@ -1,0 +1,14 @@
+
+if SHIELD_REDPOLL
+
+config ZMK_KEYBOARD_NAME
+	default "Redpoll"
+	
+endif
+    
+# Bluetooth settings
+CONFIG_BT_GATT_ENFORCE_SUBSCRIPTION=y
+CONFIG_ZMK_BLE_PASSKEY_ENTRY=y
+
+CONFIG_ZMK_USB=y
+
