@@ -1,2 +1,0 @@
-config SHIELD_AZELUS_MK4
-    def_bool $(shields_list_contains,azelus_mk4)
