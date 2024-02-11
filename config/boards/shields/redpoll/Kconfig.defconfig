@@ -5,11 +5,4 @@ config ZMK_KEYBOARD_NAME
 	default "Redpoll"
 	
 endif
-    
-# Bluetooth security
-CONFIG_ZMK_BLE_PASSKEY_ENTRY=y
-# Use USB when plugged in
-CONFIG_ZMK_USB=y
-# deep sleep after 15mins 
-CONFIG_ZMK_SLEEP=y
 

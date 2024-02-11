@@ -1,0 +1,9 @@
+file_format: "1"
+id: redpoll
+name: Redpoll
+type: shield
+url: https://github.com/Azel4231/zmk-config
+requires: [pro_micro]
+features:
+  - keys
+siblings:

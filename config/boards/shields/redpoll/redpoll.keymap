@@ -6,10 +6,24 @@
  *   cp build/zephyr/zmk.uf2 /media/.../NICENANO/
  */
 
+/* TODOs
+* move Ö Combo or make timeout longer
+* move Bluetooth Buttons. So annoying sometimes. Maybe to right layer?
+*/
+
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include "keys_de.h"
+
+#define BASE 0
+#define SYM 1
+#define NAV 2
+#define MISC 3
+#define RIGHT_H 4
+#define STENO 5
+
+#define COMBO_TIMEOUT 30
 
 / {
     combos {
@@ -18,24 +32,33 @@
         OE {
             bindings = <&kp DE_O_UMLAUT>;
             key-positions = <10 11>;
-            timeout-ms = <20>; // default=50
+            layers = <BASE>;
+            timeout-ms = <COMBO_TIMEOUT>; // default=50
         };
 
         PROZENT {
             bindings = <&kp DE_PRCNT>;
             key-positions = <26 27>;
-            layers = <1>;
-            timeout-ms = <20>;
+            layers = <SYM>;
+            timeout-ms = <COMBO_TIMEOUT>;
         };
 
-        GREATERTHAN {
-            bindings = <&kp DE_GT>;
+        LESSTHAN {
+            bindings = <&kp DE_LT>;
             key-positions = <38 39>;
-            layers = <1>;
-            timeout-ms = <20>;
+            layers = <SYM>;
+            timeout-ms = <COMBO_TIMEOUT>;
         };
     };
-
+/*
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        tri_layer {
+            if-layers = <SYM NAV>;
+            then-layer = <MISC>;
+        };
+    };
+*/
     keymap {
         compatible = "zmk,keymap";
 
@@ -45,6 +68,7 @@
                 30  31  32  33  34  35      7   8   9   10  11  12
                 36  37  38  39  40  41      13  14  15  16  17  18
                         42  43  44  45      19  20  21  22
+
         */
 
         base {
@@ -53,12 +77,12 @@
                                                                      &kp J    &kp L    &kp U      &kp DE_Z   &kp DE_U_UMLAUT &kp DE_A_UMLAUT
                                                                      &kp M    &kp N    &kp E      &kp I      &kp O           &kp BSPC
                                                                      &kp K    &kp H    &kp COMMA  &kp DOT    &kp DE_MINUS    &kp DE_SZ
-                                                                     &kp RET  &mo 2    &kp SPACE  &trans   
+                                                                     &kp RET  &mo NAV  &kp SPACE  &tog STENO   
                                                    &kp ESCAPE 
-&kp TAB    &kp Q       &kp W         &kp F         &kp P      &kp B
-&kp LCTRL  &kp A       &kp R         &kp S         &kp T      &kp G
-&mo 3      &kp DE_Y    &kp X         &kp C         &kp D      &kp V
-                       &kp LEFT_GUI  &kp LEFT_ALT  &kp LSHFT  &mo 1
+&kp TAB      &kp Q       &kp W         &kp F       &kp P      &kp B
+&kp LCTRL    &kp A       &kp R         &kp S       &kp T      &kp G
+&mo RIGHT_H  &kp DE_Y    &kp X         &kp C       &kp D      &kp V
+                       &kp LEFT_GUI  &kp LEFT_ALT  &kp LSHFT  &mo SYM
             >;
 
             label = "Base";
@@ -75,7 +99,7 @@
                                                         &kp DE_PIPE
 &kp DE_AMPS  &kp DE_AT      &kp DE_DQT    &kp DE_DLLR   &kp DE_LBRC  &kp DE_RBRC
 &kp DE_POUND &kp DE_EXCL    &kp DE_EQUAL  &kp DE_COLON  &kp DE_LPAR  &kp DE_RPAR
-&kp DE_EURO  &kp DE_QMARK   &kp DE_LT     &kp DE_SEMI   &kp DE_LBKT  &kp DE_RBKT
+&kp DE_EURO  &kp DE_QMARK   &kp DE_MINUS  &kp DE_GT     &kp DE_LBKT  &kp DE_RBKT
                             &trans        &trans        &trans       &trans
             >;
 
@@ -85,9 +109,9 @@
         nav {
             bindings = <
                                                                 &trans
-                                                     &kp PG_UP  &kp HOME  &kp UP    &kp END    &trans  &kp K_VOLUME_UP
-                                                     &kp PG_DN  &kp LEFT  &kp DOWN  &kp RIGHT  &trans  &kp K_VOLUME_DOWN
-                                                     &trans     &kp INS   &trans    &kp DEL    &trans  &trans
+                                                     &kp PG_UP  &kp HOME  &kp UP    &kp END    &trans      &kp K_VOLUME_UP
+                                                     &kp PG_DN  &kp LEFT  &kp DOWN  &kp RIGHT  &kp LC(F2)  &kp K_VOLUME_DOWN
+                                                     &trans     &kp INS   &trans    &kp DEL    &trans      &trans
                                                      &trans     &trans    &trans    &trans     
                                     &bt BT_CLR 
 &trans  &trans      &kp F7  &kp F8  &kp F9  &kp F10
@@ -99,33 +123,67 @@
             label = "Nav";
         };
 
-        right {
+        misc {
             bindings = <                                            &trans
                                                             &trans  &trans  &trans  &trans  &trans  &trans
                                                             &trans  &trans  &trans  &trans  &trans  &trans
                                                             &trans  &trans  &trans  &trans  &trans  &trans
                                                             &trans  &trans  &trans  &trans
-                                        &trans
+
+                                &trans
+&trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans
+                &trans  &trans  &trans  &trans
+            >;
+
+            label = "Right";
+        };
+
+        right-hand {
+            bindings = <                                            &trans
+                                                            &trans  &trans  &trans  &trans  &trans  &trans
+                                                            &trans  &trans  &trans  &trans  &trans  &trans
+                                                            &trans  &trans  &trans  &trans  &trans  &trans
+                                                            &trans  &trans  &trans  &trans
+                                         &trans
 &kp APOS  &kp LBKT   &kp Z    &kp U      &kp L      &kp J
 &kp DEL   &kp O      &kp I    &kp E      &kp N      &kp M
 &trans    &kp MINUS  &kp DOT  &kp COMMA  &kp H      &kp K
                      &trans   &kp SPACE  &kp LSHFT  &trans
             >;
 
-            label = "Right";
+            label = "Right hand";
+        };
+
+        steno {
+            bindings = <                                                
+                                                                    &none
+                                                         &kp N6     &kp N7  &kp N8  &kp N9      &kp N0           &kp N0
+                                                         &kp DE_Z   &kp U   &kp I   &kp O       &kp P            &kp DE_U_UMLAUT 
+                                                         &kp DE_H   &kp J   &kp K   &kp L       &kp DE_O_UMLAUT  &kp DE_A_UMLAUT 
+                                                         &kp N      &kp M   &none   &tog STENO   
+                                &none
+&none   &kp N1  &kp N2  &kp N3  &kp N4  &kp N5 
+&none   &kp Q   &kp W   &kp E   &kp R   &kp T
+&none   &kp A   &kp S   &kp D   &kp F   &kp G
+                &none   &none   &kp C   &kp V
+                            >;
+
+            label = "Steno";
         };
 
         noted {
             bindings = <                                             &kp KP_SLASH
-                                                            &kp P    &kp B  &kp M      &kp L    &kp F  &kp J
-                                                            &kp D    &kp T  &kp N      &kp R    &kp H  &kp BSPC
-                                                            &kp W    &kp G  &kp COMMA  &kp DOT  &kp K  &kp DE_SZ
-                                                            &kp RET  &mo 2  &kp SPACE  &trans   
+                                                            &kp P    &kp B        &kp M      &kp L    &kp F  &kp J
+                                                            &kp D    &kp T        &kp N      &kp R    &kp H  &kp BSPC
+                                                            &kp W    &kp G        &kp COMMA  &kp DOT  &kp K  &kp DE_SZ
+                                                            &kp RET  &mo NAV      &kp SPACE  &trans   
                                                  &kp ESCAPE
 &kp TAB    &kp Z  &kp Y         &kp U            &kp A            &kp Q
 &kp LCTRL  &kp C  &kp S         &kp I            &kp E            &kp O
-&mo 3      &kp V  &kp X         &kp DE_U_UMLAUT  &kp DE_A_UMLAUT  &kp DE_O_UMLAUT 
-                  &kp LEFT_GUI  &kp LEFT_ALT     &kp LSHFT        &mo 1
+&trans     &kp V  &kp X         &kp DE_U_UMLAUT  &kp DE_A_UMLAUT  &kp DE_O_UMLAUT 
+                  &kp LEFT_GUI  &kp LEFT_ALT     &kp LSHFT        &mo SYM
             >;
 
             label = "Noted";
